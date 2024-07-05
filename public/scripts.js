@@ -114,7 +114,7 @@ function renderTasksOnPage() {
             editTaskBtn.addEventListener('click', () => {
                 const editTaskModal = document.getElementById('edit-task-modal');
                 document.getElementById('task-title').value = task.title;
-                document.getElementById('task-stage').value = task.stage;
+                document.getElementById('task-stage').value = stages.find(stage => stage._id === task.stage).name;
                 document.getElementById('planned-completion-date').value = new Date(task.expiredDate).toISOString().split('T')[0];
                 document.getElementById('task-description').value = task.value;
                 document.getElementById('task-progress').value = task.completeProgress;
@@ -167,7 +167,7 @@ document.getElementById('edit-task-form').addEventListener('submit', async (even
 
     const newTask = {
         title: document.getElementById('task-title').value,
-        stage: document.getElementById('task-stage').value,
+        stage: stages.find(stage => stage.name === document.getElementById('task-stage').value)._id,
         expiredDate: expiredDate.valueOf(),
         value: document.getElementById('task-description').value,
         completeProgress: document.getElementById('task-progress').value
@@ -179,7 +179,7 @@ document.getElementById('edit-task-form').addEventListener('submit', async (even
         // Редактирование задачи
         try {
             const response = await fetch(`http://localhost:3000/api/v1/tasks/${taskId}`, {
-                method: 'PUT',
+                method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dropdownContent.classList.toggle('show');
         });
     });
-    
+
     const sortByLinks = document.querySelectorAll('.sort-by');
 
     sortByLinks.forEach(link => {
@@ -290,6 +290,6 @@ function sortTasksBy(criteria) {
             break;
     }
 
-    
+
     renderTasksOnPage();
 }
