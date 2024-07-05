@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<body>
+<!-- Шапка -->
+<header>
+    <h1>Task Manager</h1>
+    <button id="add-task-btn">Add task</button>
+</header>
+<!-- Тело -->
+<main>
+    <div class="main-container">
+        <div class="container">
+            <h2>Task Ready</h2>
+            <button class="ellipsis-btn"><i class="fas fa-ellipsis-h"></i></button>
+            <div class="task-list-ready">
+                <div class="tasks"></div>
+            </div>
+        </div>
+        <div class="container">
+            <h2>In Progress</h2>
+            <button class="ellipsis-btn"><i class="fas fa-ellipsis-h"></i></button>
+            <div class="task-list-progress">
+                <div class="tasks"></div>
+            </div>
+        </div>
+        <div class="container">
+            <h2>Needs Review</h2>
+            <button class="ellipsis-btn"><i class="fas fa-ellipsis-h"></i></button>
+            <div class="task-list-review">
+                <div class="tasks"></div>
+            </div>
+        </div>
+        <div class="container">
+            <h2>Done</h2>
+            <button class="ellipsis-btn"><i class="fas fa-ellipsis-h"></i></button>
+            <div class="task-list-done">
+                <div class="tasks"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Модальное окно для редактирования задачи -->
+    <div id="edit-task-modal" class="modal hidden">
+        <form id="edit-task-form">
+            <h2>Add Task</h2>
+            <label for="task-title">Task Title:</label>
+            <input type="text" id="task-title" name="task-title" required>
+
+            <label for="task-stage">Stage:</label>
+            <select id="task-stage" name="task-stage" required>
+                <option value="ready">Ready</option>
+                <option value="progress">In Progress</option>
+                <option value="review">Needs Review</option>
+                <option value="done">Done</option>
+            </select>
+
+            <label for="planned-completion-date">Planned Completion Date:</label>
+            <input type="date" id="planned-completion-date" name="planned-completion-date" required>
+
+            <label for="task-description">Task Description:</label>
+            <textarea id="task-description" name="task-description" required></textarea>
+
+            <label for="task-progress">Task Progress:</label>
+            <input type="range" id="task-progress" name="task-progress" min="0" max="100" value="0" step="1">
+
+            <output for="task-progress" id="progress-value">0%</output>
+
+            <button type="submit">Save</button>
+            <button type="button" id="close-modal-btn">Close</button>
+        </form>
+    </div>
+    <!-- Удаление -->
+    <div id="delete-confirmation-modal" class="modal hidden">
+        <div class="modal-content">
+            <p>Вы уверены, что хотите удалить задание? Данное действие будет необратимо.</p>
+            <button id="confirm-delete-btn">Удалить</button>
+            <button id="cancel-delete-btn">Отмена</button>
+        </div>
+    </div>
+</main>
+<script src="scripts.js"></script>
+</body>
+</html>
