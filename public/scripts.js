@@ -254,7 +254,42 @@ document.getElementById('close-modal-btn').addEventListener('click', () => {
 document.getElementById('task-progress').addEventListener('input', (event) => {
     document.getElementById('progress-value').innerText = `${event.target.value}%`;
 });
+document.addEventListener('DOMContentLoaded', () => {
+    const sortButtons = document.querySelectorAll('.ellipsis-btn-sort');
 
+    sortButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const dropdownContent = event.currentTarget.nextElementSibling;
+            dropdownContent.classList.toggle('show');
+        });
+    });
+    
+    const sortByLinks = document.querySelectorAll('.sort-by');
 
+    sortByLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const sortBy = event.currentTarget.dataset.sort;
+            sortTasksBy(sortBy);
+        });
+    });
+});
 
+function sortTasksBy(criteria) {
+    switch (criteria) {
+        case 'creationDate':
+            tasksByStage.ready.sort((a, b) => new Date(a.creationDate) - new Date(b.creationDate));
+            break;
+        case 'expiredDate':
+            tasksByStage.ready.sort((a, b) => new Date(a.expiredDate) - new Date(b.expiredDate));
+            break;
+        case 'title':
+            tasksByStage.ready.sort((a, b) => a.title.localeCompare(b.title));
+            break;
+        default:
+            break;
+    }
 
+    
+    renderTasksOnPage();
+}
