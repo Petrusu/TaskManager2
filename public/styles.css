@@ -151,6 +151,46 @@ h2 {
     height: 100%;
     background-color: #76c7c0;
 }
+.task-progress-container {
+    flex: 1;
+    margin: 10px ;
+    background: #FFFFFF;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.task-progress-container h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.progress-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.progress-item span {
+    display: flex;
+    width: 120px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+progress {
+    width: 200px;
+    height: 20px;
+    margin-right: 10px;
+    
+}
+
+#progress-ready-value,
+#progress-progress-value,
+#progress-review-value,
+#progress-done-value {
+    width: 50px;
+    text-align: left;
+}
 
 .dropdown {
     position: relative;

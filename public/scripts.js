@@ -56,6 +56,7 @@ async function fetchTasksAndRender() {
 
         // Вызываем функцию для отображения задач на странице
         renderTasksOnPage();
+        updateTaskProgress();
     } catch (error) {
         console.error('Fetch error:', error);
         // Обработка ошибок при запросе
@@ -134,6 +135,17 @@ function renderTasksOnPage() {
         });
     });
 }
+function updateTaskProgress() {
+    Object.keys(tasksByStage).forEach(stage => {
+        const tasks = document.querySelectorAll(`.task-list-${stage} .task`).length;
+        const totalTasks = document.querySelectorAll('.task').length;
+        const progressValue = totalTasks ? Math.round((tasks / totalTasks) * 100) : 0;
+        document.getElementById(`progress-${stage}`).value = progressValue;
+        document.getElementById(`progress-${stage}-value`).textContent = `${progressValue}%`;
+    });
+}
+
+document.addEventListener('DOMContentLoaded', updateTaskProgress);
 
 document.getElementById('cancel-delete-btn').addEventListener('click', () => {
     document.getElementById('delete-confirmation-modal').classList.add('hidden');
@@ -155,6 +167,7 @@ document.getElementById('confirm-delete-btn').addEventListener('click', () => {
     }).catch(error => {
         console.error('Error deleting task:', error);
     });
+    updateTaskProgress();
 });
 
 // Редактирование
@@ -213,6 +226,7 @@ document.getElementById('edit-task-form').addEventListener('submit', async (even
             console.error('Error adding task:', error);
         }
     }
+    updateTaskProgress();
 });
 
 
@@ -227,7 +241,7 @@ document.getElementById('task-progress').addEventListener('input', (event) => {
 // Добавление
 document.getElementById('add-task-btn').addEventListener('click', () => {
     const editTaskModal = document.getElementById('edit-task-modal');
-    editTaskModal.dataset.taskId = ''; // Убрать id задачи, если это новое добавление
+    editTaskModal.dataset.taskId = ''; 
     editTaskModal.classList.remove('hidden');
     document.getElementById('edit-task-form').reset();
     document.getElementById('progress-value').innerText = '0%';
@@ -241,8 +255,8 @@ document.getElementById('add-task-btn').addEventListener('click', () => {
         option.text = stage.name.charAt(0).toUpperCase() + stage.name.slice(1);
         taskStageSelect.appendChild(option);
     });
-
-    console.log('Stages initialized for new task:', stages);
+    
+    updateTaskProgress();
 });
 
 
