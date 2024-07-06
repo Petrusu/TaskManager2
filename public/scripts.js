@@ -164,17 +164,16 @@ document.getElementById('edit-task-form').addEventListener('submit', async (even
     const taskId = editTaskModal.dataset.taskId;
     const dataValue = document.getElementById("planned-completion-date").value;
     const expiredDate = new Date(dataValue);
+    const stageValue = document.getElementById('task-stage').value;
+    const stageObj = stages.find(stage => stage.name === stageValue);
 
     const newTask = {
         title: document.getElementById('task-title').value,
-        stage: stages.find(stage => stage.name === document.getElementById('task-stage').value)._id,
+        stage: stageObj ? stageObj._id : stageValue,
         expiredDate: expiredDate.valueOf(),
         value: document.getElementById('task-description').value,
         completeProgress: document.getElementById('task-progress').value
     };
-
-    console.log('Task to be saved:', newTask);
-
     if (taskId) {
         // Редактирование задачи
         try {
@@ -255,7 +254,7 @@ document.getElementById('task-progress').addEventListener('input', (event) => {
     document.getElementById('progress-value').innerText = `${event.target.value}%`;
 });
 document.addEventListener('DOMContentLoaded', () => {
-    const sortButtons = document.querySelectorAll('.ellipsis-btn-sort');
+    const sortButtons = document.querySelectorAll('.ellipsis-btn-sort, .ellipsis-btn-sort-progress, .ellipsis-btn-sort-review, .ellipsis-btn-sort-done');
 
     sortButtons.forEach(button => {
         button.addEventListener('click', (event) => {
@@ -270,26 +269,26 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', (event) => {
             event.preventDefault();
             const sortBy = event.currentTarget.dataset.sort;
-            sortTasksBy(sortBy);
+            const stage = event.currentTarget.dataset.stage;
+            sortTasksBy(sortBy, stage);
         });
     });
 });
 
-function sortTasksBy(criteria) {
+function sortTasksBy(criteria, stage) {
     switch (criteria) {
         case 'creationDate':
-            tasksByStage.ready.sort((a, b) => new Date(a.creationDate) - new Date(b.creationDate));
+            tasksByStage[stage].sort((a, b) => new Date(a.creationDate) - new Date(b.creationDate));
             break;
         case 'expiredDate':
-            tasksByStage.ready.sort((a, b) => new Date(a.expiredDate) - new Date(b.expiredDate));
+            tasksByStage[stage].sort((a, b) => new Date(a.expiredDate) - new Date(b.expiredDate));
             break;
         case 'title':
-            tasksByStage.ready.sort((a, b) => a.title.localeCompare(b.title));
+            tasksByStage[stage].sort((a, b) => a.title.localeCompare(b.title));
             break;
         default:
             break;
     }
-
 
     renderTasksOnPage();
 }

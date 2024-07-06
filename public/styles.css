@@ -50,6 +50,36 @@ button{
     cursor: pointer;
     font-size: 20px;
 }
+.ellipsis-btn-sort-progress {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border: none;
+    background: transparent;
+    color: #D3D3D3;
+    cursor: pointer;
+    font-size: 20px;
+}
+.ellipsis-btn-sort-review {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border: none;
+    background: transparent;
+    color: #D3D3D3;
+    cursor: pointer;
+    font-size: 20px;
+}
+.ellipsis-btn-sort-done {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border: none;
+    background: transparent;
+    color: #D3D3D3;
+    cursor: pointer;
+    font-size: 20px;
+}
 .task-options-btn {
     color: #D3D3D3;
     font-size: 20px;
