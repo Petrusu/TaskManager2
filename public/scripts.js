@@ -114,6 +114,14 @@ function renderTasksOnPage() {
             const editTaskBtn = taskElement.querySelector('.edit-task-btn');
             editTaskBtn.addEventListener('click', () => {
                 const editTaskModal = document.getElementById('edit-task-modal');
+                const formTitle = editTaskModal.querySelector('h2');
+                const stageLabel = editTaskModal.querySelector('label[for="task-stage"]');
+                const stageSelect = editTaskModal.querySelector('#task-stage');
+                formTitle.textContent = 'Edit Task';
+
+                stageLabel.style.display = '';
+                stageSelect.style.display = '';
+
                 document.getElementById('task-title').value = task.title;
                 document.getElementById('task-stage').value = stages.find(stage => stage._id === task.stage).name;
                 document.getElementById('planned-completion-date').value = new Date(task.expiredDate).toISOString().split('T')[0];
@@ -190,7 +198,6 @@ document.getElementById('edit-task-form').addEventListener('submit', async (even
     };
     if (taskId) {
         // Редактирование задачи
-	formTitle.textContent = 'Edit Task';
         try {
             const response = await fetch(`http://localhost:3000/api/v1/tasks/${taskId}`, {
                 method: 'PATCH',
@@ -210,7 +217,6 @@ document.getElementById('edit-task-form').addEventListener('submit', async (even
         }
     } else {
         // Добавление новой задачи
-	formTitle.textContent = 'Add Task';
         try {
             const response = await fetch('http://localhost:3000/api/v1/tasks', {
                 method: 'POST',
@@ -244,23 +250,25 @@ document.getElementById('task-progress').addEventListener('input', (event) => {
 // Добавление
 document.getElementById('add-task-btn').addEventListener('click', () => {
     const editTaskModal = document.getElementById('edit-task-modal');
-    editTaskModal.dataset.taskId = ''; 
+    const formTitle = editTaskModal.querySelector('h2');
+    const stageLabel = editTaskModal.querySelector('label[for="task-stage"]');
+    const stageSelect = editTaskModal.querySelector('#task-stage');
+
+    editTaskModal.dataset.taskId = '';
     editTaskModal.classList.remove('hidden');
     document.getElementById('edit-task-form').reset();
     document.getElementById('progress-value').innerText = '0%';
 
-    const taskStageSelect = document.getElementById('task-stage');
-    taskStageSelect.innerHTML = ''; // Очистить старые опции
 
-    stages.forEach(stage => {
-        const option = document.createElement('option');
-        option.value = stage._id;
-        option.text = stage.name.charAt(0).toUpperCase() + stage.name.slice(1);
-        taskStageSelect.appendChild(option);
-    });
-    
+    stageLabel.style.display = 'none';
+    stageSelect.style.display = 'none';
+
+
+    formTitle.textContent = 'Add Task';
+
     updateTaskProgress();
 });
+
 
 
 document.getElementById('close-modal-btn').addEventListener('click', () => {
