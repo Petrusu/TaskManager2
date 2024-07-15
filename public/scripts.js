@@ -174,6 +174,7 @@ document.getElementById('confirm-delete-btn').addEventListener('click', () => {
 document.getElementById('edit-task-form').addEventListener('submit', async (event) => {
     event.preventDefault();
     const editTaskModal = document.getElementById('edit-task-modal');
+    const formTitle = editTaskModal.querySelector('h2');
     const taskId = editTaskModal.dataset.taskId;
     const dataValue = document.getElementById("planned-completion-date").value;
     const expiredDate = new Date(dataValue);
@@ -189,6 +190,7 @@ document.getElementById('edit-task-form').addEventListener('submit', async (even
     };
     if (taskId) {
         // Редактирование задачи
+	formTitle.textContent = 'Edit Task';
         try {
             const response = await fetch(`http://localhost:3000/api/v1/tasks/${taskId}`, {
                 method: 'PATCH',
@@ -208,6 +210,7 @@ document.getElementById('edit-task-form').addEventListener('submit', async (even
         }
     } else {
         // Добавление новой задачи
+	formTitle.textContent = 'Add Task';
         try {
             const response = await fetch('http://localhost:3000/api/v1/tasks', {
                 method: 'POST',
